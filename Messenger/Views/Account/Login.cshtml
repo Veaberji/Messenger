@@ -1,0 +1,21 @@
+﻿@model Messenger.ViewModels.LoginViewModel
+
+<div class="card-header fs-3">Log In</div>
+<div class="card-body">
+    <div asp-validation-summary="All" class="alert-danger"></div>
+
+    <form asp-action="Login" method="post">
+        <div class="mb-3">
+            <label class="form-label" asp-for="Login"></label>
+            <input class="form-control" asp-for="Login" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label" asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Log In
+        </button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

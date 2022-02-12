@@ -1,0 +1,27 @@
+﻿.app-content {
+    margin-top: 70px;
+    min-width: 900px;
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.app-content,
+.card,
+.app-img {
+    border-radius: 10px;
+}
+
+.input-validation-error {
+    border-color: red;
+    background-color: #faacac;
+}
+
+.user {
+    color: white;
+}
+
+.app-img {
+    height: 500px;
+}

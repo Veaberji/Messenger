@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" />
+    <script src="https://kit.fontawesome.com/f704188f17.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    @{
+        await Html.RenderPartialAsync("_Navbar");
+    }
+    <div class="app-content shadow">
+        <div class="card">@RenderBody()</div>
+    </div>
+
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
