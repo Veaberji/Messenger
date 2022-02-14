@@ -16,12 +16,15 @@ namespace Messenger.Models
             _userManager = userManager;
         }
 
-        public async Task Send(string toUserId, string message)
+        public async Task Send(string toUser, string theme, string message)
         {
             var user = await _userManager.GetUserAsync(Context.User);
 
-            await Clients.User(toUserId).SendAsync("ReceiveMessage", user.UserName, message);
-            await Clients.Caller.SendAsync("ConfirmMessage", toUserId, message);
+            if (user.UserName != toUser)
+            {
+                await Clients.User(toUser).SendAsync("ReceiveMessage", user.UserName, theme, message);
+            }
+            await Clients.Caller.SendAsync("ConfirmMessage", toUser, theme, message);
 
 
 
@@ -30,17 +33,17 @@ namespace Messenger.Models
         }
 
 
-        //public async Task Send(string toUserId, string message)
+        //public async Task Send(string toUser, string message)
         //{
         //    string fromUserId = Context.ConnectionId;
 
-        //    var toUser = _userManager.Users.FirstOrDefault(x => x.Id == toUserId);
+        //    var toUser = _userManager.Users.FirstOrDefault(x => x.Id == toUser);
         //    var fromUser = _userManager.Users.FirstOrDefault(x => x.Id == fromUserId);
 
         //    if (toUser != null && fromUser != null)
         //    {
-        //        await Clients.Users(toUserId).SendAsync("Receive", fromUserId, fromUser.UserName, message);
-        //        await Clients.Caller.SendAsync("Receive", toUserId, fromUser.UserName, message);
+        //        await Clients.Users(toUser).SendAsync("Receive", fromUserId, fromUser.UserName, message);
+        //        await Clients.Caller.SendAsync("Receive", toUser, fromUser.UserName, message);
 
         //    }
         //}
