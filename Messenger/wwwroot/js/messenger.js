@@ -8,21 +8,12 @@ var connection = new signalR.HubConnectionBuilder()
 document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage", function (message) {
-    var li = document.createElement("li");
-    li.className = "list-group-item";
-    document.getElementById("messagesList").appendChild(li);
+    var tbody = getElementById("messages");
+    var row = createElement("tr");
 
-    li.textContent = `${message.sender} says: theme: ${message.theme}\n message: ${message.body}`;
-});
+    fillRow(row, message);
 
-//todo: refactor repeated (example: li)
-connection.on("ConfirmMessage", function (message) {
-    console.log(message);
-    var li = document.createElement("li");
-    li.className = "list-group-item";
-    document.getElementById("messagesList").appendChild(li);
-
-    li.textContent = `I say to ${message.receiver}: theme: ${message.theme}\n message: ${message.body}`;
+    tbody.appendChild(row);
 });
 
 connection.start().then(function () {
@@ -36,7 +27,7 @@ document.getElementById("sendButton")
         var messageBodyElement = getElementById("message");
 
         var message = {};
-        message.sender = getValueById("sender");
+        message.sender = getValueById("user");
         message.receiver = getValueById("receiver");
         message.theme = getValueById("theme");
         message.body = getValueById("message");
@@ -50,11 +41,58 @@ document.getElementById("sendButton")
 
 function getValueById(id) {
 
-    return getElementById(id).value;;
-}
+    return getElementById(id).value;
+};
 
 function getElementById(id) {
 
-    return document.getElementById(id);;
-}
+    return document.getElementById(id);
+};
 
+function createElement(name) {
+
+    return document.createElement(name);
+};
+
+function fillRow(row, message) {
+    fillSender(row, getSender(message));
+    fillReceiver(row, getReceiver(message));
+    fillTheme(row, message.theme);
+    fillMessageBody(row, message.body);
+};
+
+function getSender(message) {
+    return message.sender === getCurrentUser() ? "Me" : message.sender;
+};
+
+function getReceiver(message) {
+    return message.receiver === getCurrentUser() ? "Me" : message.receiver;
+};
+
+function getCurrentUser() {
+    return getValueById("user");
+};
+
+function fillSender(row, text) {
+
+    var sender = row.insertCell(0);
+    sender.innerHTML = text;
+};
+
+function fillReceiver(row, text) {
+
+    var receiver = row.insertCell(1);
+    receiver.innerHTML = text;
+};
+
+function fillTheme(row, text) {
+
+    var theme = row.insertCell(2);
+    theme.innerHTML = text;
+};
+
+function fillMessageBody(row, text) {
+
+    var body = row.insertCell(3);
+    body.innerHTML = text;
+};
