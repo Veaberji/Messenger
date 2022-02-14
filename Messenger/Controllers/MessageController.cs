@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace Messenger.Controllers
@@ -20,6 +21,13 @@ namespace Messenger.Controllers
         {
             var users = _userManager.Users.ToList();
             return View(users);
+        }
+
+        [HttpPost]
+        public IActionResult Save(Message message)
+        {
+            Console.WriteLine(message);
+            return Ok();
         }
     }
 }

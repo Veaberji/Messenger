@@ -1,4 +1,4 @@
-﻿"use strict";
+﻿////"use strict";
 
 var connection = new signalR.HubConnectionBuilder()
     .withUrl("/messenger")
@@ -24,20 +24,40 @@ connection.start().then(function () {
 
 document.getElementById("sendButton")
     .addEventListener("click", function (event) {
-        var messageBodyElement = getElementById("message");
-
-        var message = {};
-        message.sender = getValueById("user");
-        message.receiver = getValueById("receiver");
-        message.theme = getValueById("theme");
-        message.body = getValueById("message");
+        var message = getFilledMessage();
         connection.invoke("Send", message)
             .catch(function (err) {
                 return console.error(err.toString());
             });
-        messageBodyElement.value = "";
+
+        clearMessageBody();
+        saveInDb(message);
         event.preventDefault();
     });
+
+function getFilledMessage() {
+    var message = {};
+    message.sender = getValueById("user");
+    message.receiver = getValueById("receiver");
+    message.theme = getValueById("theme");
+    message.body = getValueById("message");
+    message.dateSent = new Date().toISOString();
+    return message;
+};
+
+function saveInDb(newMessage) {
+    $.ajax({
+        type: "POST",
+        url: "Message/Save",
+        data: { message: newMessage }
+    });
+    return;
+}
+
+function clearMessageBody() {
+
+    getElementById("message").value = "";
+};
 
 function getValueById(id) {
 
@@ -59,6 +79,7 @@ function fillRow(row, message) {
     fillReceiver(row, getReceiver(message));
     fillTheme(row, message.theme);
     fillMessageBody(row, message.body);
+    fillDateSent(row, message.dateSent);
 };
 
 function getSender(message) {
@@ -95,4 +116,10 @@ function fillMessageBody(row, text) {
 
     var body = row.insertCell(3);
     body.innerHTML = text;
+};
+
+function fillDateSent(row, text) {
+
+    var date = row.insertCell(4);
+    date.innerHTML = new Date(text).toLocaleString();
 };

@@ -9,6 +9,13 @@
     {
       "library": "microsoft-signalr@6.0.2",
       "destination": "wwwroot/lib/signalr/"
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js"
+      ]
     }
   ]
 }
