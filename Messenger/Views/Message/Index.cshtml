@@ -3,21 +3,22 @@
 <div class="card-body">
 
     <div class="mb-3">
-        <label class="form-label" for="user">User</label>
-        <select class="form-control" id="user">
+        <label class="form-label" for="receiver">User</label>
+        <select class="form-control" id="receiver">
             @foreach (var user in Model)
             {
                 <option value="@user.UserName">@user.UserName</option>
             }
         </select>
     </div>
+    <input hidden class="form-control" type="text" id="sender" value="@User.Identity.Name" />
     <div class="mb-3">
-        <label class="form-label" for="themeInput">Theme</label>
-        <input class="form-control" type="text" id="themeInput" />
+        <label class="form-label" for="theme">Theme</label>
+        <input class="form-control" type="text" id="theme" />
     </div>
     <div class="mb-3">
-        <label class="form-label" for="messageInput">Message</label>
-        <input class="form-control" type="text" id="messageInput" />
+        <label class="form-label" for="message">Message</label>
+        <input class="form-control" type="text" id="message" />
     </div>
     <input type="button" class="btn btn-primary" id="sendButton" value="Send Message" />
 </div>

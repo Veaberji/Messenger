@@ -7,21 +7,22 @@ var connection = new signalR.HubConnectionBuilder()
 
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, theme, message) {
+connection.on("ReceiveMessage", function (message) {
     var li = document.createElement("li");
     li.className = "list-group-item";
     document.getElementById("messagesList").appendChild(li);
 
-    li.textContent = `${user} says: theme: ${theme}\n message: ${message}`;
+    li.textContent = `${message.sender} says: theme: ${message.theme}\n message: ${message.body}`;
 });
 
 //todo: refactor repeated (example: li)
-connection.on("ConfirmMessage", function (toUser, theme, message) {
+connection.on("ConfirmMessage", function (message) {
+    console.log(message);
     var li = document.createElement("li");
     li.className = "list-group-item";
     document.getElementById("messagesList").appendChild(li);
 
-    li.textContent = `I say to ${toUser}: theme: ${theme}\n message: ${message}`;
+    li.textContent = `I say to ${message.receiver}: theme: ${message.theme}\n message: ${message.body}`;
 });
 
 connection.start().then(function () {
@@ -32,24 +33,28 @@ connection.start().then(function () {
 
 document.getElementById("sendButton")
     .addEventListener("click", function (event) {
-        var user = document.getElementById("user").value;
-        var theme = document.getElementById("themeInput").value;
-        var message = document.getElementById("messageInput").value;
-        connection.invoke("Send", user, theme, message)
+        var messageBodyElement = getElementById("message");
+
+        var message = {};
+        message.sender = getValueById("sender");
+        message.receiver = getValueById("receiver");
+        message.theme = getValueById("theme");
+        message.body = getValueById("message");
+        connection.invoke("Send", message)
             .catch(function (err) {
                 return console.error(err.toString());
             });
+        messageBodyElement.value = "";
         event.preventDefault();
     });
 
+function getValueById(id) {
 
-//document.getElementById("sendButton")
-//    .addEventListener("click", function (event) {
-//        var user = document.getElementById("userInput").value;
-//        var message = document.getElementById("messageInput").value;
-//        connection.invoke("Send", user, message)
-//            .catch(function (err) {
-//                return console.error(err.toString());
-//            });
-//        event.preventDefault();
-//    });
+    return getElementById(id).value;;
+}
+
+function getElementById(id) {
+
+    return document.getElementById(id);;
+}
+
