@@ -3,13 +3,14 @@
         <a class="navbar-brand"
            asp-controller="Home"
            asp-action="Index">
-            Messenger App
+            @Data.Title
         </a>
         <a class="btn btn-outline-info"
-           asp-controller="Home"
+           asp-controller="Message"
            asp-action="Index">
-            Users
+            Messages
         </a>
+
 
         <div class="d-flex">
             @if (User?.Identity?.IsAuthenticated ?? false)
