@@ -1,4 +1,4 @@
-﻿var connection = new signalR.HubConnectionBuilder()
+﻿let connection = new signalR.HubConnectionBuilder()
     .withUrl("/messenger")
     .withAutomaticReconnect()
     .build();
@@ -22,16 +22,56 @@ connection.start().then(function () {
 
 document.getElementById("sendButton")
     .addEventListener("click", function (event) {
-        var message = getFilledMessage();
-        connection.invoke("Send", message)
-            .catch(function (err) {
-                return console.error(err.toString());
-            });
+        if (!isReceiverSelected()) {
+            addSelectUserError();
+            return;
+        }
 
+        var message = getFilledMessage();
+        sendMessage(message);
         clearMessageBody();
+
         saveInDb(message);
+
         event.preventDefault();
     });
+
+function isReceiverSelected() {
+    clearErrors();
+
+    let usersValues = getRegisteredUserNames();
+    let receiver = getValueById("receiver");
+
+    return receiver.length !== 0 && usersValues.includes(receiver);
+}
+
+function getRegisteredUserNames() {
+    let users = getElementById("registeredUsers").children;
+    let usersValues = [];
+    for (let user of users) {
+        usersValues.push(user.value);
+    }
+    return usersValues;
+}
+
+function addSelectUserError() {
+    let errorsElement = getElementById("validationErrors");
+    let p = createElement("p");
+    p.innerHTML = "Select the user!";
+    errorsElement.appendChild(p);
+}
+
+function clearErrors() {
+    let errorsElement = getElementById("validationErrors");
+    errorsElement.innerHTML = "";
+}
+
+function sendMessage(message) {
+    connection.invoke("Send", message)
+        .catch(function (err) {
+            return console.error(err.toString());
+        });
+}
 
 function getFilledMessage() {
     var message = {};
@@ -41,7 +81,7 @@ function getFilledMessage() {
     message.body = getValueById("message");
     message.dateSent = new Date().toISOString();
     return message;
-};
+}
 
 function saveInDb(newMessage) {
     $.ajax({
@@ -55,22 +95,22 @@ function saveInDb(newMessage) {
 function clearMessageBody() {
 
     getElementById("message").value = "";
-};
+}
 
 function getValueById(id) {
 
     return getElementById(id).value;
-};
+}
 
 function getElementById(id) {
 
     return document.getElementById(id);
-};
+}
 
 function createElement(name) {
 
     return document.createElement(name);
-};
+}
 
 function fillRow(row, message) {
     fillSender(row, getSender(message));
@@ -78,47 +118,47 @@ function fillRow(row, message) {
     fillTheme(row, message.theme);
     fillMessageBody(row, message.body);
     fillDateSent(row, message.dateSent);
-};
+}
 
 function getSender(message) {
     return message.sender === getCurrentUser() ? "Me" : message.sender;
-};
+}
 
 function getReceiver(message) {
     return message.receiver === getCurrentUser() ? "Me" : message.receiver;
-};
+}
 
 function getCurrentUser() {
     return getValueById("user");
-};
+}
 
 function fillSender(row, text) {
 
-    var sender = row.insertCell(0);
+    let sender = row.insertCell(0);
     sender.innerHTML = text;
-};
+}
 
 function fillReceiver(row, text) {
 
-    var receiver = row.insertCell(1);
+    let receiver = row.insertCell(1);
     receiver.innerHTML = text;
-};
+}
 
 function fillTheme(row, text) {
 
-    var theme = row.insertCell(2);
-    var content = text.length === 0 ? "(no theme)" : text;
+    let theme = row.insertCell(2);
+    let content = text.length === 0 ? "(no theme)" : text;
     theme.innerHTML = content;
-};
+}
 
 function fillMessageBody(row, text) {
 
-    var body = row.insertCell(3);
+    let body = row.insertCell(3);
     body.innerHTML = text;
-};
+}
 
 function fillDateSent(row, text) {
 
-    var date = row.insertCell(4);
+    let date = row.insertCell(4);
     date.innerHTML = new Date(text).toLocaleString();
-};
+}

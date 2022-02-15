@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<User>
 
 <div class="card-body">
-    <div asp-validation-summary="All" class="alert-danger"></div>
+    <div class="alert-danger" id="validationErrors"></div>
 
     <div class="mb-3">
         <label class="form-label" for="receiver">User</label>
         <input class="form-control"
-               list="registredUsers"
+               list="registeredUsers"
                id="receiver"
                name="receiver"
                required />
-        <datalist class="form-control" id="registredUsers" hidden>
+        <datalist class="form-control" id="registeredUsers" hidden>
             @foreach (var user in Model)
             {
                 <option value="@user.UserName"></option>
