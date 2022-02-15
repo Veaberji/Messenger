@@ -24,27 +24,19 @@
         foreach (var message in Model)
         {
             <tr>
-                <td>@(message.Sender == User?.Identity?.Name ? "Me" : message.Sender)</td>
+                <td>
+                    @{
+                        await Html.RenderPartialAsync("Shared/_SenderPartial", message);
+                    }
+                </td>
                 <td>@message.DateSent.ToLocalTime()</td>
                 <td>
-                    <button class="btn btn-sm btn-outline-dark"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseBody"
-                    aria-expanded="false"
-                    aria-controls="collapseBody">
-                        @message.Theme
-                    </button>
+                    @{
+                        await Html.RenderPartialAsync("Shared/_CollapseButtonPartial", message);
+                    }
                 </td>
             </tr>
-
-            <tr class="collapse" id="collapseBody">
-                <td colspan="3">
-                    <div class="card card-body">
-                        @message.Body
-                    </div>
-                </td>
-            </tr>
+            await Html.RenderPartialAsync("Shared/_CollapsibleTextPartial", message);
         }
     }
 </table>

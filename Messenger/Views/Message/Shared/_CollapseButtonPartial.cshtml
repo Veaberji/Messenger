@@ -1,0 +1,10 @@
+﻿@model Message
+
+<button class="btn btn-sm btn-outline-dark"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#@($"collapse{Model.Id}")"
+        aria-expanded="false"
+        aria-controls="@($"collapse{Model.Id}")">
+    @Model.Theme
+</button>

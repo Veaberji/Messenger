@@ -1,0 +1,3 @@
+﻿@model Message
+
+@(Model.Receiver == User?.Identity?.Name ? "Me" : Model.Receiver)

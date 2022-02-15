@@ -5,12 +5,17 @@
 
     <div class="mb-3">
         <label class="form-label" for="receiver">User</label>
-        <select class="form-control" id="receiver" required>
+        <input class="form-control"
+               list="registredUsers"
+               id="receiver"
+               name="receiver"
+               required />
+        <datalist class="form-control" id="registredUsers" hidden>
             @foreach (var user in Model)
             {
-                <option value="@user.UserName">@user.UserName</option>
+                <option value="@user.UserName"></option>
             }
-        </select>
+        </datalist>
     </div>
     <input hidden class="form-control" type="text" id="user" value="@User.Identity.Name" />
     <div class="mb-3">
@@ -49,5 +54,5 @@
 </div>
 
 @{
-    await Html.RenderPartialAsync("_MessengerScriptsPartial");
+    await Html.RenderPartialAsync("Shared/_MessengerScriptsPartial");
 }
