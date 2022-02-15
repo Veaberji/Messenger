@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Message>
+
+<div class="card-header fs-3">
+    <h4>Incoming Messages</h4>
+</div>
+
+<table class="table table-primary table-bordered table-striped mb-0">
+    <tr>
+        <th class="text-center">From</th>
+        <th class="text-center">Date Sent</th>
+        <th class="text-center">Theme</th>
+    </tr>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="3"
+            class="text-center">
+                No Incoming Messages
+            </td>
+        </tr>
+    }
+    else
+    {
+        foreach (var message in Model)
+        {
+            <tr>
+                <td>@(message.Sender == User?.Identity?.Name ? "Me" : message.Sender)</td>
+                <td>@message.DateSent.ToLocalTime()</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-dark"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseBody"
+                    aria-expanded="false"
+                    aria-controls="collapseBody">
+                        @message.Theme
+                    </button>
+                </td>
+            </tr>
+
+            <tr class="collapse" id="collapseBody">
+                <td colspan="3">
+                    <div class="card card-body">
+                        @message.Body
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+</table>

@@ -8,10 +8,21 @@
         <a class="btn btn-outline-info"
            asp-controller="Message"
            asp-action="Index">
-            Messages
+            Messenger
         </a>
-
-
+        @if (User?.Identity?.IsAuthenticated ?? false)
+        {
+            <a class="btn btn-outline-secondary"
+           asp-controller="Message"
+           asp-action="IncomingMessages">
+                Incoming Messages
+            </a>
+            <a class="btn btn-outline-secondary"
+           asp-controller="Message"
+           asp-action="History">
+                All History
+            </a>
+        }
         <div class="d-flex">
             @if (User?.Identity?.IsAuthenticated ?? false)
             {
@@ -19,7 +30,7 @@
                 <a class="btn btn-outline-warning me-2"
                asp-controller="Account"
                asp-action="Logout">
-                    Logout
+                    Logout <i class="fas fa-sign-out-alt"></i>
                 </a>
             }
             else
@@ -27,7 +38,7 @@
                 <a class="btn btn-outline-success me-2"
                asp-controller="Account"
                asp-action="Login">
-                    Login
+                    Login <i class="fas fa-sign-in-alt"></i>
                 </a>
                 <a class="btn btn-outline-success"
                asp-controller="Account"

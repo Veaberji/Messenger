@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Messenger.Controllers
 {
@@ -11,10 +12,12 @@ namespace Messenger.Controllers
     public class MessageController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly MessagesDbContext _messagesDbContext;
 
-        public MessageController(UserManager<User> userManager)
+        public MessageController(UserManager<User> userManager, MessagesDbContext messagesDbContext)
         {
             _userManager = userManager;
+            _messagesDbContext = messagesDbContext;
         }
 
         public IActionResult Index()
@@ -24,10 +27,40 @@ namespace Messenger.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(Message message)
+        public async Task<IActionResult> Save(Message message)
         {
             Console.WriteLine(message);
-            return Ok();
+            await _messagesDbContext.Messages.AddAsync(message);
+            var result = await _messagesDbContext.SaveChangesAsync();
+            if (result > 0)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        public IActionResult History()
+        {
+            var user = GetCurrentUser();
+            var messages = _messagesDbContext.Messages
+                .Where(m => m.Sender == user || m.Receiver == user).ToList();
+
+            return View(messages);
+        }
+
+        public IActionResult IncomingMessages()
+        {
+            var user = GetCurrentUser();
+            var messages = _messagesDbContext.Messages
+                .Where(m => m.Receiver == user).ToList();
+
+            return View(messages);
+        }
+
+        private string GetCurrentUser()
+        {
+            return HttpContext.User.Identity?.Name ?? "";
         }
     }
 }

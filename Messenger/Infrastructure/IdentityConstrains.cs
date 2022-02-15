@@ -1,6 +1,6 @@
 ﻿namespace Messenger.Infrastructure
 {
-    public static class Constrains
+    public static class IdentityConstrains
     {
         public const int MaxStringLength = 50;
     }

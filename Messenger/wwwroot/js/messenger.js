@@ -1,6 +1,4 @@
-﻿////"use strict";
-
-var connection = new signalR.HubConnectionBuilder()
+﻿var connection = new signalR.HubConnectionBuilder()
     .withUrl("/messenger")
     .withAutomaticReconnect()
     .build();
@@ -109,7 +107,8 @@ function fillReceiver(row, text) {
 function fillTheme(row, text) {
 
     var theme = row.insertCell(2);
-    theme.innerHTML = text;
+    var content = text.length === 0 ? "(no theme)" : text;
+    theme.innerHTML = content;
 };
 
 function fillMessageBody(row, text) {

@@ -17,6 +17,11 @@ builder.Services.AddDbContext<AppIdentityDbContext>(
     options => options.UseSqlServer(
         builder.Configuration.GetConnectionString(nameof(AppIdentityDbContext))));
 
+builder.Services.AddDbContext<MessagesDbContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString(nameof(MessagesDbContext))));
+
+
 builder.Services.AddIdentity<User, IdentityRole>(opts =>
     {
         opts.User.RequireUniqueEmail = true;

@@ -6,11 +6,11 @@ namespace Messenger.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        [MaxLength(Constrains.MaxStringLength)]
+        [MaxLength(IdentityConstrains.MaxStringLength)]
         public string Login { get; set; }
 
         [DataType(DataType.Password)]
-        [MaxLength(Constrains.MaxStringLength)]
+        [MaxLength(IdentityConstrains.MaxStringLength)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
@@ -19,7 +19,7 @@ namespace Messenger.ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [MaxLength(Constrains.MaxStringLength)]
+        [MaxLength(IdentityConstrains.MaxStringLength)]
         public string Email { get; set; }
     }
 }
