@@ -13,6 +13,8 @@ namespace Messenger.Models
             {
                 await Clients.User(message.Receiver)
                     .SendAsync("ReceiveMessage", message);
+                await Clients.User(message.Receiver)
+                    .SendAsync("Notify", message);
             }
             await Clients.Caller.SendAsync("ReceiveMessage", message);
 

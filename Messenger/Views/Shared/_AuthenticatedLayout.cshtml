@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    @{
+        await Html.RenderPartialAsync("_HeadPartial");
+    }
+</head>
+<body>
+    @{
+        await Html.RenderPartialAsync("_NavbarPartial");
+    }
+    <div class="app-content shadow">
+        AuthenticatedLayout DELETE IT!!!
+
+        <div class="card">@RenderBody()</div>
+    </div>
+
+    @{
+        await Html.RenderPartialAsync("_ScriptsPartial");
+    }
+</body>
+</html>

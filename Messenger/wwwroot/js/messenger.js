@@ -14,6 +14,14 @@ connection.on("ReceiveMessage", function (message) {
     tbody.appendChild(row);
 });
 
+connection.on("Notify", function (message) {
+    console.log(message);
+    let text = `${message.sender} says:\n
+        Theme: ${message.theme}\n
+        Message: ${message.body}`;
+    alertify.notify(text, "success", 10);
+});
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
@@ -79,7 +87,6 @@ function getFilledMessage() {
     message.receiver = getValueById("receiver");
     message.theme = getValueById("theme");
     message.body = getValueById("message");
-    console.log(message.body);
     message.dateSent = new Date().toISOString();
     return message;
 }
@@ -118,8 +125,6 @@ function fillRow(row, message) {
     fillReceiver(row, getReceiver(message));
     fillTheme(row, message.theme);
     fillMessageBody(row, message.body);
-    //todo: del
-    console.log(message.body);
     fillDateSent(row, message.dateSent);
 }
 
