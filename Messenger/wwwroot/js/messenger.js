@@ -1,7 +1,10 @@
-﻿let connection = new signalR.HubConnectionBuilder()
-    .withUrl("/messenger")
-    .withAutomaticReconnect()
-    .build();
+﻿////let connection = new signalR.HubConnectionBuilder()
+////    .withUrl("/messenger")
+////    .withAutomaticReconnect()
+////    .build();
+
+import { connection } from "./hubConnection.js";
+//import "./notify.js";
 
 document.getElementById("sendButton").disabled = true;
 
@@ -14,13 +17,12 @@ connection.on("ReceiveMessage", function (message) {
     tbody.appendChild(row);
 });
 
-connection.on("Notify", function (message) {
-    console.log(message);
-    let text = `${message.sender} says:\n
-        Theme: ${message.theme}\n
-        Message: ${message.body}`;
-    alertify.notify(text, "success", 10);
-});
+//connection.on("Notify", function (message) {
+//    let text = `${message.sender} says:\n
+//        Theme: ${message.theme}\n
+//        Message: ${message.body}`;
+//    alertify.notify(text, "success", 10);
+//});
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;

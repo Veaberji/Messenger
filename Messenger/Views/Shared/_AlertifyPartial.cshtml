@@ -1,0 +1,7 @@
+﻿@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <link rel="stylesheet" href="~/lib/alertifyjs/css/alertify.min.css" />
+    <script src="lib/alertifyjs/alertify.min.js"></script>
+    <script src="lib/signalr/signalr.min.js"></script>
+    <script type="module" src="js/notify.js"></script>
+}
