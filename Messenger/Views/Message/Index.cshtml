@@ -1,21 +1,24 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<UsersConnectedStatusViewModel>
 
 <div class="card-body">
     <div class="alert-danger" id="validationErrors"></div>
 
     <div class="mb-3">
-        <label class="form-label" for="receiver">User</label>
-        <input class="form-control"
-               list="registeredUsers"
-               id="receiver"
-               name="receiver"
-               required />
-        <datalist class="form-control" id="registeredUsers" hidden>
-            @foreach (var user in Model)
+        <label class="form-label" for="receiver">User (Online ones marked green)</label>
+        <select class="form-control" id="receiver">
+            <option selected disabled></option>
+            @foreach (var userViewModel in Model)
             {
-                <option value="@user.UserName"></option>
+                if (userViewModel.IsConnected)
+                {
+                    <option value="@userViewModel.UserName" class="bg-success p-2 text-dark bg-opacity-25">@userViewModel.UserName</option>
+                }
+                else
+                {
+                    <option value="@userViewModel.UserName">@userViewModel.UserName</option>
+                }
             }
-        </datalist>
+        </select>
     </div>
     <input hidden class="form-control" type="text" id="user" value="@User.Identity.Name" />
     <div class="mb-3">

@@ -1,8 +1,11 @@
 ﻿using Messenger.Models;
+using Messenger.Services;
+using Messenger.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,17 +16,25 @@ namespace Messenger.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly MessagesDbContext _messagesDbContext;
+        private readonly ConnectedUsersProvider _connectedUsersProvider;
 
-        public MessageController(UserManager<User> userManager, MessagesDbContext messagesDbContext)
+
+        public MessageController(UserManager<User> userManager, MessagesDbContext messagesDbContext, ConnectedUsersProvider connectedUsersProvider)
         {
             _userManager = userManager;
             _messagesDbContext = messagesDbContext;
+            _connectedUsersProvider = connectedUsersProvider;
         }
 
         public IActionResult Index()
         {
             var users = _userManager.Users.ToList();
-            return View(users);
+            var connectedUsers = _connectedUsersProvider.GetConnectedUsers();
+            var usersConnectedStatusViewModel = users.
+                Select(user => user.UserName).
+                Select(userName => new UsersConnectedStatusViewModel
+                { UserName = userName, IsConnected = connectedUsers.Contains(userName) }).ToList();
+            return View(usersConnectedStatusViewModel);
         }
 
         [HttpPost]

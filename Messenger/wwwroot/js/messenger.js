@@ -1,10 +1,4 @@
-﻿////let connection = new signalR.HubConnectionBuilder()
-////    .withUrl("/messenger")
-////    .withAutomaticReconnect()
-////    .build();
-
-import { connection } from "./hubConnection.js";
-//import "./notify.js";
+﻿import { connection } from "./hubConnection.js";
 
 document.getElementById("sendButton").disabled = true;
 
@@ -16,13 +10,6 @@ connection.on("ReceiveMessage", function (message) {
 
     tbody.appendChild(row);
 });
-
-//connection.on("Notify", function (message) {
-//    let text = `${message.sender} says:\n
-//        Theme: ${message.theme}\n
-//        Message: ${message.body}`;
-//    alertify.notify(text, "success", 10);
-//});
 
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
@@ -51,15 +38,16 @@ function isReceiverSelected() {
 
     let usersValues = getRegisteredUserNames();
     let receiver = getValueById("receiver");
-
     return usersValues.includes(receiver);
 }
 
 function getRegisteredUserNames() {
-    let users = getElementById("registeredUsers").children;
+    let users = getElementById("receiver").children;
     let usersValues = [];
     for (let user of users) {
-        usersValues.push(user.value);
+        if (user.value.length > 0) {
+            usersValues.push(user.value);
+        }
     }
     return usersValues;
 }
