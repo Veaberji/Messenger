@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,7 +29,11 @@ namespace Messenger.Controllers
         [HttpPost]
         public async Task<IActionResult> Save(Message message)
         {
-            Console.WriteLine(message);
+            if (!await IsCorrectUsers(message))
+            {
+                return BadRequest("User(s) not Found");
+            }
+
             await _messagesDbContext.Messages.AddAsync(message);
             var result = await _messagesDbContext.SaveChangesAsync();
             if (result > 0)
@@ -61,6 +65,18 @@ namespace Messenger.Controllers
         private string GetCurrentUser()
         {
             return HttpContext.User.Identity?.Name ?? "";
+        }
+
+        private async Task<bool> IsUserExists(string userName)
+        {
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.UserName == userName);
+            return user != null;
+        }
+
+        private async Task<bool> IsCorrectUsers(Message message)
+        {
+            return await IsUserExists(message.Sender) && await IsUserExists(message.Receiver);
         }
     }
 }

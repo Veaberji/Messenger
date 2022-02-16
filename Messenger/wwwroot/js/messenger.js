@@ -42,7 +42,7 @@ function isReceiverSelected() {
     let usersValues = getRegisteredUserNames();
     let receiver = getValueById("receiver");
 
-    return receiver.length !== 0 && usersValues.includes(receiver);
+    return usersValues.includes(receiver);
 }
 
 function getRegisteredUserNames() {
@@ -74,11 +74,12 @@ function sendMessage(message) {
 }
 
 function getFilledMessage() {
-    var message = {};
+    let message = {};
     message.sender = getValueById("user");
     message.receiver = getValueById("receiver");
     message.theme = getValueById("theme");
     message.body = getValueById("message");
+    console.log(message.body);
     message.dateSent = new Date().toISOString();
     return message;
 }
@@ -117,6 +118,8 @@ function fillRow(row, message) {
     fillReceiver(row, getReceiver(message));
     fillTheme(row, message.theme);
     fillMessageBody(row, message.body);
+    //todo: del
+    console.log(message.body);
     fillDateSent(row, message.dateSent);
 }
 
@@ -154,7 +157,9 @@ function fillTheme(row, text) {
 function fillMessageBody(row, text) {
 
     let body = row.insertCell(3);
-    body.innerHTML = text;
+    let pre = createElement("pre");
+    pre.innerHTML = text;
+    body.appendChild(pre);
 }
 
 function fillDateSent(row, text) {
