@@ -35,13 +35,7 @@ namespace Messenger.Controllers
             {
                 return View(model);
             }
-            var user = new User
-            {
-                UserName = model.Login,
-                Email = model.Email,
-                RegistrationDate = DateTime.Now,
-                LastLoginDate = null
-            };
+            var user = CreateUser(model);
             var createResult = await _userManager.CreateAsync(user, model.Password);
             if (createResult.Succeeded)
             {
@@ -104,6 +98,17 @@ namespace Messenger.Controllers
             {
                 ModelState.AddModelError("", error.Description);
             }
+        }
+
+        private User CreateUser(RegisterViewModel model)
+        {
+            return new User
+            {
+                UserName = model.Login,
+                Email = model.Email,
+                RegistrationDate = DateTime.Now,
+                LastLoginDate = null
+            };
         }
     }
 }

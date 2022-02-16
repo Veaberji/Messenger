@@ -12,7 +12,7 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.Bind("Data", new Data());
+builder.Configuration.Bind("Data", new ConfigData());
 
 builder.Services.AddDbContext<AppIdentityDbContext>(
     options => options.UseSqlServer(
@@ -75,7 +75,7 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();
-    endpoints.MapHub<MessengerHub>(Data.MessengerHub);
+    endpoints.MapHub<MessengerHub>(ConfigData.MessengerHub);
 });
 
 //app.MapControllerRoute(
