@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Publish settings
+/Messenger/Properties/ServiceDependencies/
+/Messenger/Properties/serviceDependencies.json
+/Messenger/Properties/serviceDependencies.MessengerAppTask - Web Deploy.json

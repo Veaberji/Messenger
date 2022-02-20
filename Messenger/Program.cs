@@ -78,8 +78,4 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<MessengerHub>(ConfigData.MessengerHub);
 });
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.Run();

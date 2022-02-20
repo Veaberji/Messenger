@@ -7,7 +7,9 @@
         <label class="form-label" for="receiver">User (Online ones marked green)</label>
         <select class="form-control" id="receiver">
             <option selected disabled></option>
-            @foreach (var userViewModel in Model)
+            @foreach (var userViewModel in Model
+            .OrderByDescending(m => m.IsConnected)
+            .ThenBy(m => m.UserName))
             {
                 if (userViewModel.IsConnected)
                 {
